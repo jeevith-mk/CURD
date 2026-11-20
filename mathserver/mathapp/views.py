@@ -1,20 +1,26 @@
-
 from django.shortcuts import render
 
-def calculate_churnRate(request):
-    x = 0
-    y = 0
-    churnRate = 0
-    try:
-        if request.method == "POST":
-            x = int(request.POST.get("x"))
-            y = int(request.POST.get("y"))
-            churnRate = ((x-y)/x)*100
-    except(ValueError,KeyError):
-        print("error")
-
-    return render(request, "mathapp/math.html", {
-        "INITIAL_CUSTOMER":x ,
-        "PRESENT_CUSTOMER": y,
-        "churnRate": churnRate
-    })
+def calculate_churn_rate(request):
+    context = {}
+    
+    if request.method == "POST":
+        initial_str = request.POST.get("Initialcust", "0")
+        present_str = request.POST.get("Presentcust", "0")
+        
+        Initialcust = int(initial_str) if initial_str else 0
+        Presentcust = int(present_str) if present_str else 0
+        
+        if Initialcust > 0:
+            churn_rate = ((Initialcust - Presentcust) / Initialcust) * 100
+        else:
+            churn_rate = 0
+            
+        print("Calculated Churn Rate:", round(churn_rate, 2), "%")
+            
+        context = {
+            "Initialcust": Initialcust,
+            "Presentcust": Presentcust,
+            "churn_rate": round(churn_rate, 2),
+        }
+            
+    return render(request, "mathapp/math.html", context)

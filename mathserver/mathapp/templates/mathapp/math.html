@@ -1,20 +1,21 @@
 <html>
     <head>
-        <title>area calculator</title>
+        <title>churn calculator</title>
         <h1 align="center">M.K.JEEVITH</h1>
         <h1 align="center">26018300</h1>
     </head>
     <body>
+        <h1>jeevith 26018300</h1>
         <form method="POST">
-            {% csrf_token %}
+            {%csrf_token%}
             <label style="color: rgb(255, 0, 0);"">INITIAL CUSTOMER:</label>
-            <input type="number" name="x" ><br><br>
+            <input type="number" name="Initialcust" value="{{Initialcust}}" ><br><br>
             <label style="color:blue">PRESENT CUSTOMER:</label>
-            <input type="number" name="y"><br><br>
+            <input type="number" name="Presentcust" value="{{Presentcust}}"><br><br>
             <input style="color: blueviolet;" type="submit" value="calculate">
             <input  style="color:indigo" type="reset" value="clear">
+            <h2>churnRate:{{ churn_rate }}</h2>
         </form>
-        <h2>churnRate:{{ churnRate }}</h2>
-        <p>{{ error }}</p>
+        
     </body>
 </html>
