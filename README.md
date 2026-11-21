@@ -18,45 +18,6 @@ code the math.html and add the url link to urls.py
 run the webpage
 ## PROGRAM
 ```
-views.py
-from django.shortcuts import render
-
-def calculate_churn_rate(request):
-    context = {}
-    
-    if request.method == "POST":
-        initial_str = request.POST.get("Initialcust", "0")
-        present_str = request.POST.get("Presentcust", "0")
-        
-        Initialcust = int(initial_str) if initial_str else 0
-        Presentcust = int(present_str) if present_str else 0
-        
-        if Initialcust > 0:
-            churn_rate = ((Initialcust - Presentcust) / Initialcust) * 100
-        else:
-            churn_rate = 0
-            
-        # This will output the calculated value directly in your terminal
-        print("Calculated Churn Rate:", round(churn_rate, 2), "%")
-            
-        context = {
-            "Initialcust": Initialcust,
-            "Presentcust": Presentcust,
-            "churn_rate": round(churn_rate, 2),
-        }
-            
-    return render(request, "mathapp/math.html", context)
-
-    urls.py
-    from django.contrib import admin
-from django.urls import path
-from mathapp import views
-
-urlpatterns=[
-    path('admin/', admin.site.urls),
-    path('',views.calculate_churn_rate,name='calculate_churn_rate'),
-]
-
 math.html
 <html>
     <head>
@@ -73,18 +34,39 @@ math.html
             <label style="color:blue">PRESENT CUSTOMER:</label>
             <input type="number" name="Presentcust" value="{{Presentcust}}"><br><br>
             <input style="color: blueviolet;" type="submit" value="calculate">
+            <input type="number" name="churn_rate" value="{{churn_rate}}">
             <input  style="color:indigo" type="reset" value="clear">
-            <h2>churnRate:{{ churn_rate }}</h2>
         </form>
         
     </body>
 </html>
+views.py
+from django.shortcuts import render
+def calculateChurnRate(request):
+    Initialcust = float(request.POST.get('Initialcust', '0'))
+    Presentcust = float(request.POST.get('Presentcust', '0'))
+    churn_rate =  ((Initialcust - Presentcust) /Initialcust )*100 if request.method == 'POST' else 0
+    print("Initialcust =",Initialcust)
+    print("Presentcust =",Presentcust)
+    print("churn_rate =",churn_rate)
+    return render(request, 'mathapp/math.html',{'Initialcust': Initialcust, 'Presentcust': Presentcust, 'churn_rate': churn_rate })
+
+    urls.py
+    from django.contrib import admin
+from django.urls import path
+from mathapp import views
+
+urlpatterns=[
+    path('admin/', admin.site.urls),
+    path('',views.calculateChurnRate,name='calculateChurnRate'),
+]
 ```
+
 ## OUTPUT
 ## Server Side Processing
-![alt text](<Screenshot (127).png>)
+![alt text](<Screenshot (130).png>)
 ## Home page
-![alt text](<Screenshot (128).png>)
+![alt text](<Screenshot (131).png>)
 ## RESULT
 The programme for server side process is completed successfully
 

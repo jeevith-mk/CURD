@@ -4,5 +4,5 @@ from mathapp import views
 
 urlpatterns=[
     path('admin/', admin.site.urls),
-    path('',views.calculate_churn_rate,name='calculate_churn_rate'),
+    path('',views.calculateChurnRate,name='calculateChurnRate'),
 ]
